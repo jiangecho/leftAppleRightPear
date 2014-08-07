@@ -4,11 +4,25 @@
     android:layout_height="match_parent"
     tools:context="com.echo.leftAppleRightPear.MainActivity$PlaceholderFragment" >
 
-    <com.echo.leftAppleRightPear.GameView 
-        android:id="@+id/gameView"
+    <LinearLayout 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
+        android:orientation="horizontal"
+        >
+	    <com.echo.leftAppleRightPear.GameViewUp
+	        android:id="@+id/gameViewUp"
+	        android:layout_width="0dip"
+	        android:layout_weight="1"
+	        android:layout_height="match_parent"
+	        />
+	    <com.echo.leftAppleRightPear.GameViewDown
+	        android:id="@+id/gameViewDown"
+	        android:layout_width="0dip"
+	        android:layout_weight="1"
+	        android:layout_height="match_parent"
+	        />
+        
+    </LinearLayout>
     <TextView 
         android:id="@+id/timerTV" 
         android:layout_width="wrap_content"

@@ -17,9 +17,9 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-public class GameView extends View{
+public class GameViewDown extends View{
 	
-	private static final int COLUMN = 4;
+	private static final int COLUMN = 2;
 	private static final int OK = 0;
 	private static final int FAIL = 1;
 	public static final int TIME_OUT = 2;
@@ -61,18 +61,18 @@ public class GameView extends View{
 
 	int left, top, right, bottom;
 
-	public GameView(Context context) {
+	public GameViewDown(Context context) {
 		this(context, null);
 		
 	}
 	
 
-	public GameView(Context context, AttributeSet attrs, int defStyleAttr) {
+	public GameViewDown(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 	}
 
 
-	public GameView(Context context, AttributeSet attrs) {
+	public GameViewDown(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
 		linePaint = new Paint();
@@ -161,10 +161,14 @@ public class GameView extends View{
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 		
 		width = MeasureSpec.getSize(widthMeasureSpec);
+		height = MeasureSpec.getSize(heightMeasureSpec);
+		if (width == 0 || height == 0) {
+			return;
+		}
+
 		cellWidth = width / COLUMN;
 		cellHeight = cellWidth;
 		
-		height = MeasureSpec.getSize(heightMeasureSpec);
 		firstCellHeight = height % cellHeight;
 		row  = height / cellHeight;
 		

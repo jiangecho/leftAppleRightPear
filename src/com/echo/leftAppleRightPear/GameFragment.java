@@ -19,7 +19,7 @@ public class GameFragment extends Fragment{
 
 	private View rootView;
 	private TextView timerTV;
-	private GameView gameView;
+	private GameViewDown gameView;
 	private LinearLayout startLayer;
 	private LinearLayout resultLayer;
 	private Button startButton;
@@ -40,7 +40,7 @@ public class GameFragment extends Fragment{
 		if(rootView == null){
 			rootView = inflater.inflate(R.layout.fragment_main, container);
 			timerTV = (TextView) rootView.findViewById(R.id.timerTV);
-			gameView = (GameView) rootView.findViewById(R.id.gameView);
+			gameView = (GameViewDown) rootView.findViewById(R.id.gameViewDown);
 			startLayer = (LinearLayout) rootView.findViewById(R.id.startLayer);
 			resultLayer = (LinearLayout) rootView.findViewById(R.id.resultLayer);
 			//top.setVisibility(View.VISIBLE);

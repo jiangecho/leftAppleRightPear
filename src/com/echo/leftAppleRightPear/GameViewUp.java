@@ -19,7 +19,7 @@ import android.view.View;
 
 public class GameViewUp extends View{
 	
-	private static final int COLUMN = 4;
+	private static final int COLUMN = 2;
 	private static final int OK = 0;
 	private static final int FAIL = 1;
 	public static final int TIME_OUT = 2;
@@ -162,11 +162,17 @@ public class GameViewUp extends View{
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 		
+		
 		width = MeasureSpec.getSize(widthMeasureSpec);
+		height = MeasureSpec.getSize(heightMeasureSpec);
+
+		if (width == 0 || height == 0) {
+			return;
+		}
+
 		cellWidth = width / COLUMN;
 		cellHeight = cellWidth;
 		
-		height = MeasureSpec.getSize(heightMeasureSpec);
 		lastCellHeight = height % cellHeight;
 		row  = height / cellHeight;
 		
