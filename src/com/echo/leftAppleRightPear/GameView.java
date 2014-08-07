@@ -198,7 +198,7 @@ public class GameView extends View{
 			}
 		}
 
-		for (int i = 0; i < row - 1; i++) {
+		for (int i = 0; i < row; i++) {
 			columnIndex = random.nextInt(COLUMN);
 			fruits[i][columnIndex] = 1;
 		}
@@ -216,8 +216,8 @@ public class GameView extends View{
 			int x = (int) event.getX();
 			int y = (int) event.getY();
 			
-			if (y < height - 2 * cellHeight
-					|| y > height - cellHeight) {
+			if (y < height -  cellHeight
+					|| y > height) {
 				// wrong, do not have any effect
 				return false;
 			}
@@ -225,8 +225,8 @@ public class GameView extends View{
 			int x_index = x / cellWidth;
 			
 			//game over
-			if (fruits[row - 2][x_index] != 1) {
-				fruits[row - 2][x_index] = 3;
+			if (fruits[row - 1][x_index] != 1) {
+				fruits[row - 1][x_index] = 3;
 				playGameSoundEffect(FAIL);
 				running = false;
 				invalidate();
@@ -255,6 +255,7 @@ public class GameView extends View{
 				
 				// move down
 				score ++;
+				fruits[row - 1][x_index] = 0;
 				startMoveAnimation();
 			}
 
@@ -281,7 +282,7 @@ public class GameView extends View{
 					postDelayed(this, 10);
 				}else {
 					moveYOffset = 0;
-					for (int i = row - 2; i > 0; i--) {
+					for (int i = row - 1; i > 0; i--) {
 						for (int j = 0; j < COLUMN; j++) {
 							fruits[i][j] = fruits[i - 1][j]; 
 							fruits[i - 1][j] = 0;
