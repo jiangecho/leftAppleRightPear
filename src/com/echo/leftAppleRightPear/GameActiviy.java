@@ -1,4 +1,4 @@
-package com.echo.littleapple;
+package com.echo.leftAppleRightPear;
 
 
 
@@ -26,7 +26,7 @@ import android.widget.Toast;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
-import com.echo.littleapple.GameView.GameEventListner;
+import com.echo.leftAppleRightPear.GameView.GameEventListner;
 
 
 public class GameActiviy extends Activity implements GameEventListner{

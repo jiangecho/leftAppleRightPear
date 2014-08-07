@@ -1,4 +1,4 @@
-package com.echo.littleapple;
+package com.echo.leftAppleRightPear;
 
 import java.util.Random;
 import android.content.Context;

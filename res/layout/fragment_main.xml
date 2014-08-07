@@ -2,9 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.echo.littleapple.MainActivity$PlaceholderFragment" >
+    tools:context="com.echo.leftAppleRightPear.MainActivity$PlaceholderFragment" >
 
-    <com.echo.littleapple.GameView 
+    <com.echo.leftAppleRightPear.GameView 
         android:id="@+id/gameView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
