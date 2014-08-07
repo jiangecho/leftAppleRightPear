@@ -336,10 +336,20 @@ public class GameViewUp extends View{
 
 	}
 	
+	public void setGameStatus(boolean isRunning){
+		this.running = isRunning;
+	}
 	
+	public boolean getGameStatus(){
+		return this.running;
+	}
+	
+	
+	//TODO put the interface in a individual file
 	public interface GameEventListner{
 		public void onGameOver(int score);
 		public void onGameStart();
+		//public void onNewFruit(boolean status);
 	}
 	
 	public int getScore(){
