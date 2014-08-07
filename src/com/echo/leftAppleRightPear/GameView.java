@@ -1,6 +1,8 @@
 package com.echo.leftAppleRightPear;
 
 import java.util.Random;
+
+import android.R.integer;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -24,18 +26,18 @@ public class GameView extends View{
 	private int row;
 	private int cellWidth;
 	private int cellHeight;
-	private int firstCellHeight;
+	private int firstCellHeight, lastCellHeight;
 	
 	private int width, height;
 	
 	private Paint linePaint;
-	private Paint applePaint;
+	private Paint fruitPaint;
 	private Paint textPaint;
 	
-	private int[][] apples = null;
+	private int[][] fruits = null;
 	private Random random;
 	private Rect rect;
-	private Bitmap bitmapApple;
+	private Bitmap bitmapfruit;
 	private Bitmap bitmapError;
 	
 	private GameEventListner listner;
@@ -80,9 +82,9 @@ public class GameView extends View{
 		textPaint.setTextAlign(Paint.Align.CENTER);
 		//TODO set color
 		
-		applePaint = new Paint(linePaint);
+		fruitPaint = new Paint(linePaint);
 		
-		bitmapApple = BitmapFactory.decodeResource(context.getResources(), R.drawable.apple);
+		bitmapfruit = BitmapFactory.decodeResource(context.getResources(), R.drawable.apple);
 		bitmapError = BitmapFactory.decodeResource(context.getResources(), R.drawable.error);
 		rect = new Rect();
 		
@@ -117,17 +119,17 @@ public class GameView extends View{
 			canvas.drawLine(cellWidth * i, 0, cellWidth * i, height, linePaint);
 		}
 		
-		if (bitmapApple == null || bitmapError == null) {
+		if (bitmapfruit == null || bitmapError == null) {
 			return;
 		}
 
 		// draw applse
 		for (i = 0; i < row; i++) {
 			for (j = 0; j < COLUMN; j++) {
-				if (apples[i][j] == 0) {
+				if (fruits[i][j] == 0) {
 					// do nothing
-				}else if(apples[i][j] == 1){
-					// draw apples
+				}else if(fruits[i][j] == 1){
+					// draw fruits
 					//left = (j >= 1 ) ? (j - 1) * cellWidth  + cellWidth : 0;
 					left = j * cellWidth;
 					top = moveYOffset + ((i >= 1) ? (firstCellHeight + (i - 1) * cellHeight) : (firstCellHeight - cellHeight)); 
@@ -135,7 +137,7 @@ public class GameView extends View{
 					bottom = moveYOffset + firstCellHeight + i * cellHeight;
 					//rect.set(left, top, right, bottom);
 					rect.set(left, top, right, bottom);
-					canvas.drawBitmap(bitmapApple, null, rect, applePaint);
+					canvas.drawBitmap(bitmapfruit, null, rect, fruitPaint);
 					
 				}else {
 					left = j * cellWidth;
@@ -144,7 +146,7 @@ public class GameView extends View{
 					bottom = moveYOffset + firstCellHeight + i * cellHeight;
 					//rect.set(left, top, right, bottom);
 					rect.set(left, top, right, bottom);
-					canvas.drawBitmap(bitmapError, null, rect, applePaint);
+					canvas.drawBitmap(bitmapError, null, rect, fruitPaint);
 					
 				}
 			}
@@ -172,9 +174,9 @@ public class GameView extends View{
 		
 		moveStepHeight = cellHeight / 6;
 		
-		if (apples == null) {
-			apples = new int[row][COLUMN];
-			randomApples();
+		if (fruits == null) {
+			fruits = new int[row][COLUMN];
+			randomfruits();
 		}
 
 
@@ -183,22 +185,22 @@ public class GameView extends View{
 	public void reset(){
 		this.score = 0;
 		running = false;
-		randomApples();
+		randomfruits();
 		moveYOffset = 0;
 		invalidate();
 	}
 	
-	private void randomApples(){
+	private void randomfruits(){
 		int columnIndex;
 		for (int i = 0; i < row; i++) {
 			for (int j = 0; j < COLUMN; j++) {
-				apples[i][j] = 0;
+				fruits[i][j] = 0;
 			}
 		}
 
 		for (int i = 0; i < row - 1; i++) {
 			columnIndex = random.nextInt(COLUMN);
-			apples[i][columnIndex] = 1;
+			fruits[i][columnIndex] = 1;
 		}
 	}
 	
@@ -223,8 +225,8 @@ public class GameView extends View{
 			int x_index = x / cellWidth;
 			
 			//game over
-			if (apples[row - 2][x_index] != 1) {
-				apples[row - 2][x_index] = 3;
+			if (fruits[row - 2][x_index] != 1) {
+				fruits[row - 2][x_index] = 3;
 				playGameSoundEffect(FAIL);
 				running = false;
 				invalidate();
@@ -281,12 +283,12 @@ public class GameView extends View{
 					moveYOffset = 0;
 					for (int i = row - 2; i > 0; i--) {
 						for (int j = 0; j < COLUMN; j++) {
-							apples[i][j] = apples[i - 1][j]; 
-							apples[i - 1][j] = 0;
+							fruits[i][j] = fruits[i - 1][j]; 
+							fruits[i - 1][j] = 0;
 						}
 					}
 					int x_index = random.nextInt(COLUMN);
-					apples[0][x_index] = 1;
+					fruits[0][x_index] = 1;
 					invalidate();
 				}
 			}
