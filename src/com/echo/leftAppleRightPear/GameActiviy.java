@@ -36,8 +36,8 @@ public class GameActiviy extends Activity implements GameEventListener{
 	private static final String APP_URL = "http://1.littleappleapp.sinaapp.com/littleApple.apk";
 
 	private TextView timerTV;
-	private GameViewLeft gameViewUp;
-	private GameViewRight gameViewDown;
+	private GameViewLeft gameViewLeft;
+	private GameViewRight gameViewRight;
 	private LinearLayout startLayer;
 
 	private LinearLayout resultLayer;
@@ -58,6 +58,11 @@ public class GameActiviy extends Activity implements GameEventListener{
 	
 	private static final String[] colors = {"#773460" ,"#FE436A" ,"#823935" ,"#113F3D" ,"#26BCD5" ,"#F40D64" ,"#458994" ,"#93E0FF" ,"#D96831" ,"#AEDD81" ,"#593D43"};
 	private Random random;
+	
+	private int mode;
+	private static final int MODE_IN_TURN = 0;
+	private static final int MODE_RANDOM = 1;
+	//private static final int MODE_
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -71,10 +76,10 @@ public class GameActiviy extends Activity implements GameEventListener{
 		countDownTimer = new MyCountDownTimer(TIME_LENGHT, 100);
 		blockOnTouchEvent = new BlockOnTouchEvent();
         timerTV = (TextView)findViewById(R.id.timerTV);
-        gameViewUp = (GameViewLeft)findViewById(R.id.gameViewUp);
-        gameViewDown = (GameViewRight) findViewById(R.id.gameViewDown);
+        gameViewLeft = (GameViewLeft)findViewById(R.id.gameViewUp);
+        gameViewRight = (GameViewRight) findViewById(R.id.gameViewDown);
         promptTV = (TextView) findViewById(R.id.promptTV);
-        gameViewUp.setGameEventListener(this);
+        gameViewLeft.setGameEventListener(this);
         startLayer = (LinearLayout)findViewById(R.id.startLayer);
         startLayer.setOnTouchListener(blockOnTouchEvent);
 
@@ -117,7 +122,7 @@ public class GameActiviy extends Activity implements GameEventListener{
 
 		@Override
 		public void onFinish() {
-			gameViewUp.playGameSoundEffect(GameViewRight.TIME_OUT);
+			gameViewLeft.playGameSoundEffect(GameViewRight.TIME_OUT);
 			timerTV.setText(getResources().getString(R.string.time_out));
 			handler.postDelayed(new Runnable() {
 				
@@ -162,7 +167,7 @@ public class GameActiviy extends Activity implements GameEventListener{
 	public void onRestartButtonClick(View view){
 		resultLayer.setVisibility(View.INVISIBLE);
 		timerTV.setText("30.00");
-		gameViewUp.reset();
+		gameViewLeft.reset();
 	}
 
 	
@@ -174,7 +179,7 @@ public class GameActiviy extends Activity implements GameEventListener{
 		int colorIndex = random.nextInt(colors.length);
 		resultLayer.setBackgroundColor(Color.parseColor(colors[colorIndex]));;
 
-		int score = gameViewUp.getScore();
+		int score = gameViewLeft.getScore();
 		String value = getResources().getString(R.string.result, score);
 		resultTV.setText(value);
 		
@@ -303,7 +308,7 @@ public class GameActiviy extends Activity implements GameEventListener{
         // url仅在微信（包括好友和朋友圈）中使用
         oks.setUrl(APP_URL);
         // comment是我对这条分享的评论，仅在人人网和QQ空间使用
-        oks.setComment("呵呵，我吃了" + gameViewUp.getScore() + "个小苹果！");
+        oks.setComment("呵呵，我吃了" + gameViewLeft.getScore() + "个小苹果！");
         // site是分享此内容的网站名称，仅在QQ空间使用
         oks.setSite(getString(R.string.app_name));
         // siteUrl是分享此内容的网站地址，仅在QQ空间使用
@@ -313,5 +318,9 @@ public class GameActiviy extends Activity implements GameEventListener{
         oks.show(this);
    }
 
+@Override
+public void onFruitClick() {
+	gameViewLeft.addNewFruit();
+}
 	
 }

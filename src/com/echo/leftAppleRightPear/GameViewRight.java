@@ -183,7 +183,7 @@ public class GameViewRight extends View{
 		
 		if (fruits == null) {
 			fruits = new int[ROW][column];
-			randomfruits();
+			initGameView(true);
 		}
 
 
@@ -192,22 +192,22 @@ public class GameViewRight extends View{
 	public void reset(){
 		this.score = 0;
 		running = false;
-		randomfruits();
+		initGameView(false);
 		moveXOffset = 0;
 		invalidate();
 	}
 	
-	private void randomfruits(){
+	public void initGameView(boolean toBeStartView){
 		int rowIndex;
 		//TODO startColumnIndex should base on this is the start view or not
-		int startColumnIndex = 0;
+		int endColumnIndex = toBeStartView == true ? column - 1 : column - 2;
 		for (int i = 0; i < ROW; i++) {
 			for (int j = 0; j < column; j++) {
 				fruits[i][j] = 0;
 			}
 		}
 
-		for (int i = startColumnIndex; i < column; i++) {
+		for (int i = endColumnIndex; i >= 0; i--) {
 			rowIndex = random.nextInt(ROW);
 			fruits[rowIndex][i] = 1;
 			continue;
@@ -266,7 +266,10 @@ public class GameViewRight extends View{
 				// move down
 				score ++;
 				fruits[y_index][column - 1] = 0;
-				startMoveAnimation();
+				invalidate();
+				if (listner != null) {
+					listner.onFruitClick();
+				}
 			}
 
 			// right, move
@@ -281,7 +284,12 @@ public class GameViewRight extends View{
 		this.listner = listner;
 	}
 	
-	private void startMoveAnimation(){
+	public void addNewFruit(){
+		
+		//TODO check whether the left most or the right most column has any apple or not
+		// if true, game over
+		// update: do not need to check
+
 		handler.postDelayed(new Runnable() {
 			
 			@Override

@@ -185,7 +185,7 @@ public class GameViewLeft extends View{
 		
 		if (fruits == null) {
 			fruits = new int[ROW][column];
-			randomfruits();
+			initGameView(false);
 		}
 
 
@@ -194,15 +194,16 @@ public class GameViewLeft extends View{
 	public void reset(){
 		this.score = 0;
 		running = false;
-		randomfruits();
+		initGameView(true);
 		moveXOffset = 0;
 		invalidate();
 	}
 	
-	private void randomfruits(){
+	
+	public void initGameView(boolean toBeStartView){
 		int rowIndex;
 		//TODO startColumnIndex should base on this is the start view or not
-		int startColumnIndex = 0;
+		int startColumnIndex = toBeStartView == true ? 0 : 1;
 		for (int i = 0; i < ROW; i++) {
 			for (int j = 0; j < column; j++) {
 				fruits[i][j] = 0;
@@ -212,7 +213,6 @@ public class GameViewLeft extends View{
 		for (int i = startColumnIndex; i < column; i++) {
 			rowIndex = random.nextInt(ROW);
 			fruits[rowIndex][i] = 1;
-			continue;
 		}
 	}
 	
@@ -268,7 +268,11 @@ public class GameViewLeft extends View{
 				// move down
 				score ++;
 				fruits[y_index][0] = 0;
-				startMoveAnimation();
+
+				invalidate();
+				if (listner != null) {
+					listner.onFruitClick();
+				}
 			}
 
 			// right, move
@@ -283,7 +287,7 @@ public class GameViewLeft extends View{
 		this.listner = listner;
 	}
 	
-	private void startMoveAnimation(){
+	public void addNewFruit(){
 		handler.postDelayed(new Runnable() {
 			
 			@Override
