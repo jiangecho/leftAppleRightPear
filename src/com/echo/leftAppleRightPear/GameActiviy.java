@@ -19,14 +19,16 @@ import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnTouchListener;
+import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
-import com.echo.leftAppleRightPear.GameViewUp.GameEventListner;
+import com.echo.leftAppleRightPear.GameViewLeft.GameEventListner;
 
 
 public class GameActiviy extends Activity implements GameEventListner{
@@ -36,8 +38,8 @@ public class GameActiviy extends Activity implements GameEventListner{
 	private static final String APP_URL = "http://1.littleappleapp.sinaapp.com/littleApple.apk";
 
 	private TextView timerTV;
-	private GameViewUp gameViewUp;
-	private GameViewDown gameViewDown;
+	private GameViewLeft gameViewUp;
+	private GameViewRight gameViewDown;
 	private LinearLayout startLayer;
 
 	private LinearLayout resultLayer;
@@ -62,12 +64,17 @@ public class GameActiviy extends Activity implements GameEventListner{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		// request full screen
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 		setContentView(R.layout.fragment_main);
 		countDownTimer = new MyCountDownTimer(TIME_LENGHT, 100);
 		blockOnTouchEvent = new BlockOnTouchEvent();
         timerTV = (TextView)findViewById(R.id.timerTV);
-        gameViewUp = (GameViewUp)findViewById(R.id.gameViewUp);
-        gameViewDown = (GameViewDown) findViewById(R.id.gameViewDown);
+        gameViewUp = (GameViewLeft)findViewById(R.id.gameViewUp);
+        gameViewDown = (GameViewRight) findViewById(R.id.gameViewDown);
         promptTV = (TextView) findViewById(R.id.promptTV);
         gameViewUp.setGameEventListener(this);
         startLayer = (LinearLayout)findViewById(R.id.startLayer);
@@ -112,7 +119,7 @@ public class GameActiviy extends Activity implements GameEventListner{
 
 		@Override
 		public void onFinish() {
-			gameViewUp.playGameSoundEffect(GameViewDown.TIME_OUT);
+			gameViewUp.playGameSoundEffect(GameViewRight.TIME_OUT);
 			timerTV.setText(getResources().getString(R.string.time_out));
 			handler.postDelayed(new Runnable() {
 				

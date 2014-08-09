@@ -9,13 +9,13 @@
         android:layout_height="match_parent"
         android:orientation="horizontal"
         >
-	    <com.echo.leftAppleRightPear.GameViewUp
+	    <com.echo.leftAppleRightPear.GameViewLeft
 	        android:id="@+id/gameViewUp"
 	        android:layout_width="0dip"
 	        android:layout_weight="1"
 	        android:layout_height="match_parent"
 	        />
-	    <com.echo.leftAppleRightPear.GameViewDown
+	    <com.echo.leftAppleRightPear.GameViewRight
 	        android:id="@+id/gameViewDown"
 	        android:layout_width="0dip"
 	        android:layout_weight="1"

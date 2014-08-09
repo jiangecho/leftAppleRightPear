@@ -25,7 +25,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.echo.leftAppleRightPear.GameActiviy"
-	        android:screenOrientation="portrait"
+	        android:screenOrientation="landscape"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,7 +37,7 @@
 			  android:name="cn.sharesdk.framework.ShareSDKUIShell"
 			  android:theme="@android:style/Theme.Translucent.NoTitleBar"
 			  android:configChanges="keyboardHidden|orientation|screenSize"
-			  android:screenOrientation="portrait"
+			  android:screenOrientation="landscape"
 			  android:windowSoftInputMode="stateHidden|adjustResize" >
 			   <intent-filter>
 			        <data android:scheme="tencent100371282" />
@@ -51,7 +51,7 @@
 			  android:theme="@android:style/Theme.Translucent.NoTitleBar"
 			  android:configChanges="keyboardHidden|orientation|screenSize"
 			  android:exported="true"
-			  android:screenOrientation="portrait" />
+			  android:screenOrientation="landscape" />
     </application>
 
 </manifest>

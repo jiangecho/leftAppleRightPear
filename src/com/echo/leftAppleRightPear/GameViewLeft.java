@@ -17,9 +17,9 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-public class GameViewUp extends View{
+public class GameViewLeft extends View{
 	
-	private static final int COLUMN = 2;
+	private static final int COLUMN = 4;
 	private static final int OK = 0;
 	private static final int FAIL = 1;
 	public static final int TIME_OUT = 2;
@@ -61,18 +61,18 @@ public class GameViewUp extends View{
 
 	int left, top, right, bottom;
 
-	public GameViewUp(Context context) {
+	public GameViewLeft(Context context) {
 		this(context, null);
 		
 	}
 	
 
-	public GameViewUp(Context context, AttributeSet attrs, int defStyleAttr) {
+	public GameViewLeft(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 	}
 
 
-	public GameViewUp(Context context, AttributeSet attrs) {
+	public GameViewLeft(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
 		linePaint = new Paint();
