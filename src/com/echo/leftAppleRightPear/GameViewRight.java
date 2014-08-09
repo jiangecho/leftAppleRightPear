@@ -2,7 +2,6 @@ package com.echo.leftAppleRightPear;
 
 import java.util.Random;
 
-import android.R.integer;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -40,7 +39,7 @@ public class GameViewRight extends View{
 	private Bitmap bitmapfruit;
 	private Bitmap bitmapError;
 	
-	private GameEventListner listner;
+	private GameEventListener listner;
 	private boolean running;
 	
 	private int score;
@@ -278,7 +277,7 @@ public class GameViewRight extends View{
 	}
 
 
-	public void setGameEventListener(GameEventListner listner){
+	public void setGameEventListener(GameEventListener listner){
 		this.listner = listner;
 	}
 	
@@ -337,12 +336,6 @@ public class GameViewRight extends View{
 			}
 		});
 
-	}
-	
-	
-	public interface GameEventListner{
-		public void onGameOver(int score);
-		public void onGameStart();
 	}
 	
 	public int getScore(){

@@ -28,10 +28,8 @@ import android.widget.Toast;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
-import com.echo.leftAppleRightPear.GameViewLeft.GameEventListner;
 
-
-public class GameActiviy extends Activity implements GameEventListner{
+public class GameActiviy extends Activity implements GameEventListener{
 
 	private static final int TIME_LENGHT = 30 * 1000;
 	private static final String BEST_SCORE = "BEST_SCORE";
@@ -214,6 +212,13 @@ public class GameActiviy extends Activity implements GameEventListner{
 		//TODO best score
 		updateAndShowResultLayer();
 	}
+
+	@Override
+	public void onNewFruit(boolean status) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	@Override
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -307,5 +312,6 @@ public class GameActiviy extends Activity implements GameEventListner{
         // ∆Ù∂Ø∑÷œÌGUI
         oks.show(this);
    }
+
 	
 }
