@@ -117,7 +117,7 @@ public class GameViewRight extends View{
 		canvas.drawLine(moveXOffset + firstCellWidth, 0, moveXOffset + firstCellWidth, height, linePaint);
 		
 		//draw vertical lines
-		for (i = 1; i < column; i++) {
+		for (i = -1; i < column; i++) {
 			//canvas.drawLine(cellWidth * i, 0, cellWidth * i, height, linePaint);
 			canvas.drawLine(moveXOffset + firstCellWidth + cellWidth * i, 0, moveXOffset + firstCellWidth + cellWidth * i, height, linePaint);
 		}
@@ -180,7 +180,7 @@ public class GameViewRight extends View{
 			column += 1;
 		}
 		
-		moveStepWidth = cellWidth / 20;
+		moveStepWidth = cellWidth / 10;
 		
 		if (fruits == null) {
 			fruits = new int[ROW][column];

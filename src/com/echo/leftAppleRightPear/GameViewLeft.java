@@ -19,14 +19,14 @@ import android.view.View;
 
 public class GameViewLeft extends View{
 	
-	private static final int COLUMN = 4;
+	private static final int ROW = 4;
 	private static final int OK = 0;
 	private static final int FAIL = 1;
 	public static final int TIME_OUT = 2;
-	private int row;
+	private int column;
 	private int cellWidth;
 	private int cellHeight;
-	private int firstCellHeight, lastCellHeight;
+	private int lastCellWidth = 0;
 	
 	private int width, height;
 	
@@ -45,8 +45,8 @@ public class GameViewLeft extends View{
 	
 	private int score;
 	
-	private int moveStepHeight;
-	private int moveYOffset = 0;
+	private int moveStepWidth;
+	private int moveXOffset = 0;
 	private Handler handler;
 	
 	private SoundPool soundPool;
@@ -108,45 +108,48 @@ public class GameViewLeft extends View{
 		
 		
 		//draw horizontal lines
-		for (i = 0; i < row ; i++) {
-			canvas.drawLine(0, moveYOffset + cellHeight * i, width, moveYOffset + cellHeight * i, linePaint);
+		for (i = 0; i <= ROW; i++) {
+			canvas.drawLine(0,  cellWidth * i, width, cellWidth * i, linePaint);
+			//canvas.drawLine(0, moveYOffset + firstCellHeight + cellHeight * i, width, moveYOffset + firstCellHeight + cellHeight * i, linePaint);
 		}
 		
+		
 		//draw vertical lines
-		for (i = 0; i < COLUMN ; i++) {
-			canvas.drawLine(cellWidth * i, 0, cellWidth * i, height, linePaint);
+		for (i = 0; i <= column; i++) {
+			//canvas.drawLine(cellWidth * i, 0, cellWidth * i, height, linePaint);
+			canvas.drawLine(moveXOffset + cellWidth * i, 0, moveXOffset + cellWidth * i, height, linePaint);
 		}
+
+		//draw the last vertical line
+		//canvas.drawLine(moveXOffset + cellWidth * (column - 1) + lastCellWidth, 0, moveXOffset + cellWidth * (column - 1) + lastCellWidth, height, linePaint);
+		canvas.drawLine(cellWidth * (column - 1) + lastCellWidth, 0, cellWidth * (column - 1) + lastCellWidth, height, linePaint);
 		
 		if (bitmapfruit == null || bitmapError == null) {
 			return;
 		}
 
-		// draw applse
-		for (i = 0; i < row; i++) {
-			for (j = 0; j < COLUMN; j++) {
+		// draw apples
+		for (i = 0; i < ROW; i++) {
+			for (j = 0; j < column; j++) {
 				if (fruits[i][j] == 0) {
 					// do nothing
 				}else if(fruits[i][j] == 1){
 					// draw fruits
-					//left = (j >= 1 ) ? (j - 1) * cellWidth  + cellWidth : 0;
-					left = j * cellWidth;
-					//top = moveYOffset + ((i >= 1) ? (firstCellHeight + (i - 1) * cellHeight) : (firstCellHeight - cellHeight)); 
-					top = moveYOffset + i * cellHeight;
-					right = (j + 1) * cellWidth;
-					//bottom = moveYOffset + firstCellHeight + i * cellHeight;
-					bottom = moveYOffset + (i + 1) * cellHeight;
+					left = moveXOffset + j * cellWidth;
+					top = i * cellHeight;
+					right = moveXOffset + (j + 1) * cellWidth;
+					bottom = (i + 1) * cellHeight;
 					//rect.set(left, top, right, bottom);
 					rect.set(left, top, right, bottom);
 					canvas.drawBitmap(bitmapfruit, null, rect, fruitPaint);
 					
 				}else {
-					left = j * cellWidth;
-					//top = moveYOffset + ((i >= 1) ? (firstCellHeight + (i - 1) * cellHeight) : (firstCellHeight - cellHeight)); 
-					top = moveYOffset + i * cellHeight;
-					right = (j + 1) * cellWidth;
-					//bottom = moveYOffset + firstCellHeight + i * cellHeight;
-					bottom = moveYOffset + (i + 1) * cellHeight;
-					//rect.set(left, top, right, bottom);
+					
+					left = moveXOffset + j * cellWidth;
+					top = i * cellHeight;
+					right = moveXOffset + (j + 1) * cellWidth;
+					bottom = (i + 1) * cellHeight;
+					
 					rect.set(left, top, right, bottom);
 					canvas.drawBitmap(bitmapError, null, rect, fruitPaint);
 					
@@ -162,7 +165,6 @@ public class GameViewLeft extends View{
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 		
-		
 		width = MeasureSpec.getSize(widthMeasureSpec);
 		height = MeasureSpec.getSize(heightMeasureSpec);
 
@@ -170,20 +172,20 @@ public class GameViewLeft extends View{
 			return;
 		}
 
-		cellWidth = width / COLUMN;
+		cellWidth = height / ROW;
 		cellHeight = cellWidth;
 		
-		lastCellHeight = height % cellHeight;
-		row  = height / cellHeight;
+		lastCellWidth = width % cellWidth;
+		column = width / cellWidth;
 		
-		if (lastCellHeight > 0) {
-			row  += 1;
+		if (lastCellWidth > 0) {
+			column += 1;
 		}
 		
-		moveStepHeight = cellHeight / 6;
+		moveStepWidth = cellWidth / 10;
 		
 		if (fruits == null) {
-			fruits = new int[row][COLUMN];
+			fruits = new int[ROW][column];
 			randomfruits();
 		}
 
@@ -194,21 +196,24 @@ public class GameViewLeft extends View{
 		this.score = 0;
 		running = false;
 		randomfruits();
-		moveYOffset = 0;
+		moveXOffset = 0;
 		invalidate();
 	}
 	
 	private void randomfruits(){
-		int columnIndex;
-		for (int i = 0; i < row; i++) {
-			for (int j = 0; j < COLUMN; j++) {
+		int rowIndex;
+		//TODO startColumnIndex should base on this is the start view or not
+		int startColumnIndex = 0;
+		for (int i = 0; i < ROW; i++) {
+			for (int j = 0; j < column; j++) {
 				fruits[i][j] = 0;
 			}
 		}
 
-		for (int i = 0; i < row; i++) {
-			columnIndex = random.nextInt(COLUMN);
-			fruits[i][columnIndex] = 1;
+		for (int i = startColumnIndex; i < column; i++) {
+			rowIndex = random.nextInt(ROW);
+			fruits[rowIndex][i] = 1;
+			continue;
 		}
 	}
 	
@@ -224,17 +229,17 @@ public class GameViewLeft extends View{
 			int x = (int) event.getX();
 			int y = (int) event.getY();
 			
-			if (y < 0
-					|| y > cellHeight) {
+			if (x < 0 
+					|| x > cellWidth) {
 				// wrong, do not have any effect
 				return false;
 			}
 			
-			int x_index = x / cellWidth;
+			int y_index = y / cellHeight;
 			
 			//game over
-			if (fruits[0][x_index] != 1) {
-				fruits[0][x_index] = 3;
+			if (fruits[y_index][0] != 1) {
+				fruits[y_index][0] = 3;
 				playGameSoundEffect(FAIL);
 				running = false;
 				invalidate();
@@ -263,7 +268,7 @@ public class GameViewLeft extends View{
 				
 				// move down
 				score ++;
-				fruits[0][x_index] = 0;
+				fruits[y_index][0] = 0;
 				startMoveAnimation();
 			}
 
@@ -284,20 +289,20 @@ public class GameViewLeft extends View{
 			
 			@Override
 			public void run() {
-				if (moveYOffset > -cellHeight) {
-					moveYOffset -= moveStepHeight;
+				if (moveXOffset > -cellWidth) {
+					moveXOffset -= moveStepWidth;
 					invalidate();
 					postDelayed(this, 10);
 				}else {
-					moveYOffset = 0;
-					for (int i = 0; i < row - 1; i++) {
-						for (int j = 0; j < COLUMN; j++) {
-							fruits[i][j] = fruits[i + 1][j]; 
-							fruits[i + 1][j] = 0;
+					moveXOffset = 0;
+					for (int i = 0; i < column - 1; i++) {
+						for (int j = 0; j < ROW; j++) {
+							fruits[j][i] = fruits[j][i + 1]; 
+							fruits[j][i + 1] = 0;
 						}
 					}
-					int x_index = random.nextInt(COLUMN);
-					fruits[row - 1][x_index] = 1;
+					int y_index = random.nextInt(ROW);
+					fruits[y_index][column - 1] = 1;
 					invalidate();
 				}
 			}
