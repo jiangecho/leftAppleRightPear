@@ -126,6 +126,10 @@ public class GameViewLeft extends View{
 		if (bitmapfruit == null || bitmapError == null) {
 			return;
 		}
+		
+		if (fruits == null) {
+			return;
+		}
 
 		// draw apples
 		for (i = 0; i < ROW; i++) {
@@ -183,10 +187,10 @@ public class GameViewLeft extends View{
 		
 		moveStepWidth = cellWidth / 10;
 		
-		if (fruits == null) {
+		//if (fruits == null) {
 			fruits = new int[ROW][column];
 			initGameView(toBeStartView);
-		}
+		//}
 
 
 	}

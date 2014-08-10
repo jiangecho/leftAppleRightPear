@@ -84,7 +84,7 @@ public class GameViewRight extends View{
 		
 		fruitPaint = new Paint(linePaint);
 		
-		bitmapfruit = BitmapFactory.decodeResource(context.getResources(), R.drawable.apple);
+		bitmapfruit = BitmapFactory.decodeResource(context.getResources(), R.drawable.pear);
 		bitmapError = BitmapFactory.decodeResource(context.getResources(), R.drawable.error);
 		rect = new Rect();
 		
@@ -182,10 +182,10 @@ public class GameViewRight extends View{
 		
 		moveStepWidth = cellWidth / 10;
 		
-		if (fruits == null) {
+		//if (fruits == null) {
 			fruits = new int[ROW][column];
 			initGameView(toBeStartView);
-		}
+		//}
 
 
 	}
