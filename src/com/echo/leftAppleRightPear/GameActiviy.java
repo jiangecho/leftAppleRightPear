@@ -63,7 +63,7 @@ public class GameActiviy extends Activity implements GameEventListener{
 	private static final int MODE_RANDOM = 1;
 	//private static final int MODE_
 
-	private int mode = MODE_IN_TURN;
+	private int mode = MODE_RANDOM;
 	private Object gameView;
 
 	@Override
@@ -344,6 +344,13 @@ public class GameActiviy extends Activity implements GameEventListener{
 			}else {
 				gameViewLeft.addNewFruit();
 				gameView = gameViewLeft;
+			}
+		}else {
+			boolean tmp = random.nextBoolean();
+			if (tmp) {
+				gameViewLeft.addNewFruit();
+			}else {
+				gameViewRight.addNewFruit();
 			}
 		}
 	}
