@@ -59,12 +59,12 @@ public class GameViewLeft extends View{
 	private Handler soundPoolHandler;
 
 	int left, top, right, bottom;
+	
+	private boolean toBeStartView = true;
 
 	public GameViewLeft(Context context) {
 		this(context, null);
-		
 	}
-	
 
 	public GameViewLeft(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
@@ -185,7 +185,7 @@ public class GameViewLeft extends View{
 		
 		if (fruits == null) {
 			fruits = new int[ROW][column];
-			initGameView(false);
+			initGameView(toBeStartView);
 		}
 
 
@@ -194,13 +194,13 @@ public class GameViewLeft extends View{
 	public void reset(){
 		this.score = 0;
 		running = false;
-		initGameView(true);
+		initGameView(toBeStartView);
 		moveXOffset = 0;
 		invalidate();
 	}
 	
 	
-	public void initGameView(boolean toBeStartView){
+	private void initGameView(boolean toBeStartView){
 		int rowIndex;
 		//TODO startColumnIndex should base on this is the start view or not
 		int startColumnIndex = toBeStartView == true ? 0 : 1;
@@ -354,5 +354,9 @@ public class GameViewLeft extends View{
 	
 	public int getScore(){
 		return this.score;
+	}
+	
+	public void setGameStartStatus(boolean toBeStartView){
+		this.toBeStartView = toBeStartView;
 	}
 }

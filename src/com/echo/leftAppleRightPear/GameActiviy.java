@@ -59,10 +59,12 @@ public class GameActiviy extends Activity implements GameEventListener{
 	private static final String[] colors = {"#773460" ,"#FE436A" ,"#823935" ,"#113F3D" ,"#26BCD5" ,"#F40D64" ,"#458994" ,"#93E0FF" ,"#D96831" ,"#AEDD81" ,"#593D43"};
 	private Random random;
 	
-	private int mode;
 	private static final int MODE_IN_TURN = 0;
 	private static final int MODE_RANDOM = 1;
 	//private static final int MODE_
+
+	private int mode = MODE_IN_TURN;
+	private Object gameView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -80,6 +82,7 @@ public class GameActiviy extends Activity implements GameEventListener{
         gameViewRight = (GameViewRight) findViewById(R.id.gameViewDown);
         promptTV = (TextView) findViewById(R.id.promptTV);
         gameViewLeft.setGameEventListener(this);
+        gameViewRight.setGameEventListener(this);
         startLayer = (LinearLayout)findViewById(R.id.startLayer);
         startLayer.setOnTouchListener(blockOnTouchEvent);
 
@@ -94,6 +97,9 @@ public class GameActiviy extends Activity implements GameEventListener{
         
         sharedPreferences = getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
         bestScore = sharedPreferences.getInt(BEST_SCORE, 0);
+        
+        random = new Random();
+        gameView = gameViewLeft;
 
 	}
 
@@ -167,15 +173,25 @@ public class GameActiviy extends Activity implements GameEventListener{
 	public void onRestartButtonClick(View view){
 		resultLayer.setVisibility(View.INVISIBLE);
 		timerTV.setText("30.00");
+		
+		boolean leftToBeStartView = random.nextBoolean();
+		if (leftToBeStartView) {
+			gameViewLeft.setGameStartStatus(true);
+			gameViewRight.setGameStartStatus(false);
+			gameView = gameViewLeft;
+		}else {
+			gameViewLeft.setGameStartStatus(false);
+			gameViewRight.setGameStartStatus(true);
+			gameView = gameViewRight;
+		}
+
 		gameViewLeft.reset();
+		gameViewRight.reset();
 	}
 
 	
 	private void updateAndShowResultLayer(){
 		
-		if (random == null) {
-			random = new Random();
-		}
 		int colorIndex = random.nextInt(colors.length);
 		resultLayer.setBackgroundColor(Color.parseColor(colors[colorIndex]));;
 
@@ -318,9 +334,18 @@ public class GameActiviy extends Activity implements GameEventListener{
         oks.show(this);
    }
 
-@Override
-public void onFruitClick() {
-	gameViewLeft.addNewFruit();
-}
+	@Override
+	public void onFruitClick() {
+		
+		if (mode == MODE_IN_TURN) {
+			if (gameView == gameViewLeft) {
+				gameViewRight.addNewFruit();
+				gameView = gameViewRight;
+			}else {
+				gameViewLeft.addNewFruit();
+				gameView = gameViewLeft;
+			}
+		}
+	}
 	
 }
