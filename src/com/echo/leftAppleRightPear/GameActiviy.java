@@ -357,6 +357,10 @@ public class GameActiviy extends Activity implements GameEventListener{
 		
 		playGameSoundEffect(type);
 		
+		if (type == CELL_TYPE_BLANK) {
+			return;
+		}
+		
 		if (mode == MODE_IN_TURN) {
 			if (gameView == gameViewLeft) {
 				gameViewRight.addNewFruit();
