@@ -30,7 +30,7 @@
         android:layout_marginTop="30dip"
         android:layout_gravity="center_horizontal"
         android:textSize="40sp"
-        android:textColor="@android:color/background_dark"
+        android:textColor="@color/red"
         android:text="30.00"
         />
 
@@ -46,7 +46,7 @@
 	    <TextView 
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_marginTop="50dip"
+	        android:layout_marginTop="30dip"
 	        android:layout_gravity="center_horizontal"
 	        android:textAppearance="?android:attr/textAppearanceLarge" 
 	        android:text="@string/title"
@@ -89,16 +89,35 @@
 	        android:textColor="@color/white"
 	        />
 
-	    <Button
-	        android:id="@+id/startButton"
-	        android:layout_width="150dp"
+	    <LinearLayout 
+	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
-	        android:layout_gravity="center_horizontal"
-	        android:layout_marginTop="15dip"
-	        android:background="@color/red"
-	        android:onClick="onStartButtonClick"
-	        android:text="@string/start"
-	        android:textColor="@color/white" />
+	        android:gravity="center"
+	        android:orientation="horizontal">
+		    <Button
+		        android:id="@+id/startButton"
+		        android:layout_width="150dp"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center_horizontal"
+		        android:layout_marginTop="20dip"
+		        android:layout_marginRight="15dip"
+		        android:background="@color/red"
+		        android:onClick="onStartInTurnModeButtonClick"
+		        android:text="@string/start_in_turn"
+		        android:textColor="@color/white" />
+		        
+		    <Button
+		        android:id="@+id/startButton1"
+		        android:layout_width="150dp"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center_horizontal"
+		        android:layout_marginTop="20dip"
+		        android:layout_marginLeft="15dip"
+		        android:background="@color/red"
+		        android:onClick="onStartRandomModeButtonClick"
+		        android:text="@string/start_random"
+		        android:textColor="@color/white" />
+	    </LinearLayout>
 
     </LinearLayout>
     
@@ -116,7 +135,7 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center_horizontal"
-	        android:layout_marginTop="100dip"
+	        android:layout_marginTop="30dip"
 	        android:textAppearance="?android:attr/textAppearanceMedium" 
 	        android:text="@string/result"
 	        android:textColor="@color/white"

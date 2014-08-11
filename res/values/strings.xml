@@ -13,7 +13,8 @@
     <string name="strf">亲加油哦！</string>
     <string name="str_high_score">亲快炫耀一下!</string>
     <string name="best">最高纪录: %1$d个小苹果，%2$d个大梨,共%3$d</string>
-    <string name="start">预备，上！</string>
+    <string name="start_in_turn">左右互搏</string>
+    <string name="start_random">左右无常</string>
     <string name="restart">再挑战一次</string>
     <string name="time_out">时间到！</string>
     <string name="press_twice_to_exit">再按一次退出</string>

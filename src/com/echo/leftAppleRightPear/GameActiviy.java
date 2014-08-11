@@ -189,9 +189,15 @@ public class GameActiviy extends Activity implements GameEventListener{
 	}
 	
 	
-	public void onStartButtonClick(View view){
+	public void onStartInTurnModeButtonClick(View view){
+		mode = MODE_IN_TURN;
 		startLayer.setVisibility(View.INVISIBLE);
 		//gameView.reset();
+	}
+	
+	public void onStartRandomModeButtonClick(View view){
+		mode = MODE_RANDOM;
+		startLayer.setVisibility(View.INVISIBLE);
 	}
 
 	public void onRestartButtonClick(View view){
