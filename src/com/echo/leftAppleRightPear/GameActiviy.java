@@ -9,6 +9,7 @@ import java.util.Random;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Color;
@@ -36,6 +37,8 @@ public class GameActiviy extends Activity implements GameEventListener{
 
 	private static final int TIME_LENGHT = 30 * 1000;
 	private static final String BEST_SCORE = "BEST_SCORE";
+	private static final String BEST_SCORE_APPLE = "BEST_SCORE_APPLE";
+	private static final String BEST_SCORE_PEAR = "BEST_SCORE_PEAR";
 	private static final String APP_URL = "http://1.littleappleapp.sinaapp.com/littleApple.apk";
 
 	private TextView timerTV;
@@ -52,7 +55,7 @@ public class GameActiviy extends Activity implements GameEventListener{
 	private CountDownTimer countDownTimer;
 	private StringBuffer remindTimeSB;
 	private SharedPreferences sharedPreferences;
-	private int bestScore;
+	private int bestScore, bestScoreApple, bestScorePear;
 	
 	
 	private long lastPressMillis = 0;
@@ -113,6 +116,9 @@ public class GameActiviy extends Activity implements GameEventListener{
         
         sharedPreferences = getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
         bestScore = sharedPreferences.getInt(BEST_SCORE, 0);
+        bestScoreApple = sharedPreferences.getInt(BEST_SCORE_APPLE, 0);
+        bestScorePear = sharedPreferences.getInt(BEST_SCORE_PEAR, 0);
+
         
         random = new Random();
         gameView = gameViewLeft;
@@ -213,23 +219,31 @@ public class GameActiviy extends Activity implements GameEventListener{
 		int colorIndex = random.nextInt(colors.length);
 		resultLayer.setBackgroundColor(Color.parseColor(colors[colorIndex]));;
 
-		int score = gameViewLeft.getScore();
-		String value = getResources().getString(R.string.result, score);
+		int apple = gameViewLeft.getScore();
+		int pear = gameViewRight.getScore();
+		int total = apple + pear;
+		String value = getResources().getString(R.string.result, apple, pear);
 		resultTV.setText(value);
 		
-		if (score > 100) {
+		if (total > 100) {
 			value = getResources().getString(R.string.str_high_score);
 		}else {
 			value = getResources().getString(R.string.strf);
 		}
 		promptTV.setText(value);
 
-		if (score > bestScore) {
-			bestScore = score;
-			sharedPreferences.edit().putInt(BEST_SCORE, bestScore).commit();
+		if (total > bestScore) {
+			bestScore = total;
+			bestScoreApple = apple;
+			bestScorePear = pear;
+			Editor editor = sharedPreferences.edit();
+			editor.putInt(BEST_SCORE_APPLE, apple);
+			editor.putInt(BEST_SCORE_PEAR, pear);
+			editor.putInt(BEST_SCORE, bestScore);
+			editor.commit();
 		}
 
-        value = getString(R.string.best, bestScore);
+        value = getString(R.string.best, bestScoreApple, bestScorePear, bestScore);
         bestTV.setText(value);
 		resultLayer.setVisibility(View.VISIBLE);
 

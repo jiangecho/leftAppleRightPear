@@ -27,7 +27,7 @@
         android:id="@+id/timerTV" 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dip"
+        android:layout_marginTop="30dip"
         android:layout_gravity="center_horizontal"
         android:textSize="40sp"
         android:textColor="@android:color/background_dark"
@@ -46,7 +46,7 @@
 	    <TextView 
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_marginTop="100dip"
+	        android:layout_marginTop="50dip"
 	        android:layout_gravity="center_horizontal"
 	        android:textAppearance="?android:attr/textAppearanceLarge" 
 	        android:text="@string/title"

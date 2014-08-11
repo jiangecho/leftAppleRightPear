@@ -21,7 +21,8 @@ public class GameViewLeft extends View{
 	private int cellHeight;
 	private int lastCellWidth = 0;
 	
-	private int width, height;
+	private int width = 0;
+	private int height = 0;
 	
 	private Paint linePaint;
 	private Paint fruitPaint;
@@ -149,10 +150,16 @@ public class GameViewLeft extends View{
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 		
+		int curWidth = width; 
+		int curHeight = height;
 		width = MeasureSpec.getSize(widthMeasureSpec);
 		height = MeasureSpec.getSize(heightMeasureSpec);
 
 		if (width == 0 || height == 0) {
+			return;
+		}
+		
+		if (width <= curWidth || height <= curHeight) {
 			return;
 		}
 

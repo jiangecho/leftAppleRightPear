@@ -8,5 +8,6 @@
     <color name="blue">#3366CC</color>
     <color name="green">#00CC00</color>
     <color name="orange">#FF9900</color>
+    <color name="black">#000000</color>
     
 </resources>
