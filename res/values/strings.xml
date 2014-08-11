@@ -17,4 +17,6 @@
     <string name="restart">再挑战一次</string>
     <string name="time_out">时间到！</string>
     <string name="press_twice_to_exit">再按一次退出</string>
+    <string name="mode_in_turn">左右互搏</string>
+    <string name="mode_random">左右无常</string>
 </resources>

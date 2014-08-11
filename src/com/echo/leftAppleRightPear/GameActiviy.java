@@ -12,10 +12,13 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Color;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -65,6 +68,19 @@ public class GameActiviy extends Activity implements GameEventListener{
 
 	private int mode = MODE_RANDOM;
 	private Object gameView;
+	
+	public static int CELL_TYPE_APPLE_PEAR = 0;
+	public static int CELL_TYPE_BLANK = 1;
+	public static int TIME_OUT = 2;
+
+	private SoundPool soundPool;
+	private int[] sounds;
+	private float audioMaxVolumn;
+	private float audioCurrentVolumn;
+	private float volumnRatio;
+	
+	private HandlerThread soundPoolThread;
+	private Handler soundPoolHandler;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -100,6 +116,8 @@ public class GameActiviy extends Activity implements GameEventListener{
         
         random = new Random();
         gameView = gameViewLeft;
+        
+        initSoundPool();
 
 	}
 
@@ -128,7 +146,7 @@ public class GameActiviy extends Activity implements GameEventListener{
 
 		@Override
 		public void onFinish() {
-			gameViewLeft.playGameSoundEffect(GameViewRight.TIME_OUT);
+			playGameSoundEffect(GameActiviy.TIME_OUT);
 			timerTV.setText(getResources().getString(R.string.time_out));
 			handler.postDelayed(new Runnable() {
 				
@@ -335,7 +353,9 @@ public class GameActiviy extends Activity implements GameEventListener{
    }
 
 	@Override
-	public void onFruitClick() {
+	public void onCellClick(int type) {
+		
+		playGameSoundEffect(type);
 		
 		if (mode == MODE_IN_TURN) {
 			if (gameView == gameViewLeft) {
@@ -353,6 +373,38 @@ public class GameActiviy extends Activity implements GameEventListener{
 				gameViewRight.addNewFruit();
 			}
 		}
+	}
+
+	private void initSoundPool(){
+		soundPoolThread = new HandlerThread("test");
+		soundPoolThread.start();
+		soundPoolHandler = new Handler(soundPoolThread.getLooper(), null);
+		soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
+		
+		sounds = new int[3];
+		sounds[0] = soundPool.load(this, R.raw.ok, 1);
+		sounds[1] = soundPool.load(this, R.raw.fail, 1);
+		sounds[2] = soundPool.load(this, R.raw.time_out, 1);
+
+		AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+		audioMaxVolumn = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+		audioCurrentVolumn = am.getStreamVolume(AudioManager.STREAM_MUSIC);
+		
+		volumnRatio = audioCurrentVolumn / audioMaxVolumn;
+	}
+	
+	
+	public void playGameSoundEffect(final int type){
+		//soundPool.pla
+		soundPoolHandler.post(new Runnable() {
+			
+			@Override
+			public void run() {
+				soundPool.play(sounds[type], volumnRatio, volumnRatio, 1, 0, 1);
+				
+			}
+		});
+
 	}
 	
 }
